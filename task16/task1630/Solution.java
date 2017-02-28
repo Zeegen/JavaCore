@@ -9,33 +9,43 @@ public class Solution {
     public static String firstFileName;
     public static String secondFileName;
 
-    //add your code here - добавьте код тут
-    public static class ReadFileThread implements ReadFileInterface {
-        public ReadFileThread() {
+    static {
+        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+        try {
+            firstFileName = reader.readLine();
+            secondFileName = reader.readLine();
+            reader.close();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+    }
+
+    //add your code here - добавьте код тут
+    public static class ReadFileThread extends Thread implements ReadFileInterface {
+        private String fileName;
+        private String fileContent = "";
+
+        public ReadFileThread() {}
 
         @Override
         public void setFileName(String fullFileName) {
-
+            fileName = fullFileName;
         }
 
         @Override
         public String getFileContent() {
-            return null;
-        }
-
-        @Override
-        public void join() throws InterruptedException {
-
-        }
-
-        @Override
-        public void start() {
-
+            return fileContent;
         }
 
         @Override
         public void run() {
+            try {
+                BufferedReader reader = new BufferedReader(new FileReader(fileName));
+                String line;
+                while ((line = reader.readLine()) != null) {fileContent = fileContent + line + " ";}
+                reader.close();
+            }
+            catch (IOException e){e.printStackTrace();}
 
         }
     }
@@ -49,11 +59,12 @@ public class Solution {
         ReadFileInterface f = new ReadFileThread();
         f.setFileName(fileName);
         f.start();
+        f.join();
         //add your code here - добавьте код тут
         System.out.println(f.getFileContent());
     }
 
-    public interface ReadFileInterface extends Runnable {
+    public interface ReadFileInterface {
 
         void setFileName(String fullFileName);
 
@@ -65,4 +76,5 @@ public class Solution {
     }
 
     //add your code here - добавьте код тут
+
 }
