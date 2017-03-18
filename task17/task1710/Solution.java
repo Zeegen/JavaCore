@@ -54,7 +54,7 @@ public class Solution {
                         e.printStackTrace();
                     }
                 }
-                System.out.println((allPeople.size() - 1));
+                System.out.print((allPeople.size() - 1) + " ");
                 break;
             case "-u":
                 tmp = allPeople.get(Integer.parseInt(ardulos[1]));
